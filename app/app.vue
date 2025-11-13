@@ -23,14 +23,27 @@
     <!-- Story page -->
     <div v-else class="text-center p-6 animate-fadeIn">
       <h1 class="text-4xl font-bold mb-6">добро пожаловать</h1>
-      <p class="mb-8">мой небольшой подарочек🌷</p>
+      <p class="mb-4">мой небольшой подарочек🌷</p>
 
-      <section class="w-full max-w-5xl mx-auto px-4 py-12">
+      <section class="w-full mb-4 max-w-5xl mx-auto px-4 py-12 ">
+
+        <button
+        @click="toggleMusic"
+        class="bg-rose-400 hover:bg-rose-500 text-white px-6 py-3 rounded-full shadow-md transition"
+      >
+        {{ isPlaying ? 'стоп' : 'для начала музыку' }}
+      </button>
+
+      <audio ref="audioRef" loop>
+        <source src="/music/love.mp3" type="audio/mpeg" />
+      </audio>
+
+
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           <div
           v-for="(memory, index) in memories"
           :key="index"
-          class="bg-white rounded-lg shadow-md border border-rose-200 overflow-hidden transform transition hover:-translate-y-2 hover:shadow-xl"
+          class="mt-6 bg-white rounded-lg shadow-md border border-rose-200 overflow-hidden transform transition hover:-translate-y-2 hover:shadow-xl"
           >
       <!-- Photo -->
       <img
@@ -123,6 +136,18 @@ const checkPassword = () => {
     localStorage.setItem('unlocked', 'true') // remember access
   } else {
     error.value = true
+  }
+}
+const isPlaying = ref(false);
+const audioRef = ref(null);
+
+function toggleMusic() {
+  if (!isPlaying.value) {
+    audioRef.value.play();
+    isPlaying.value = true;
+  } else {
+    audioRef.value.pause();
+    isPlaying.value = false;
   }
 }
 
